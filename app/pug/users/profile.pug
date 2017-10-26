@@ -1,0 +1,17 @@
+extends ../layouts/member.pug
+
+block content
+    .container
+        .github-profile
+            img(src='/public/img/gh-mark-32px.png' alt='github logo')
+            p #[span ID: ]#[span(id='profile-id' class='profile-value')]
+            p #[span Username: ]#[span(id='profile-username' class='profile-value')]
+            p #[span Display Name: ]#[span(class='profile-value display-name')]
+            //- p #[span Repositories: ]#[span(id='profile-repos' class='profile-value')]
+            //- a(class='menu' href='/') Home
+            //- p#menu-divide |
+            //- a(class='menu' href='/logout') Logout
+
+block append scripts
+    = '\n'
+    script(type='text/javascript' src='controllers/userController.client.js')

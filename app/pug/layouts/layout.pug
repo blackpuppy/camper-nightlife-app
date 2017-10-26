@@ -1,0 +1,27 @@
+doctype html
+html
+    head
+        title Nightlife App - #{title}
+        block styles
+            link(rel='stylesheet', type='text/css', href='/public/css/main.css')
+    body
+        block header
+
+        .container
+            //- img(src='/public/img/clementine_150.png')
+            br/
+            br/
+            p(class='clementine-text') What's about tonight?
+            p #[em Check out bars nearby and plan beforehand!]
+            br/
+            br/
+
+        block content
+
+        block foot
+            footer#footer
+                //p some footer content
+
+        block scripts
+            = '\n'
+            script(type='text/javascript', src='/common/ajax-functions.js')

@@ -2,36 +2,44 @@
 
 (function () {
 
-   var profileId = document.querySelector('#profile-id') || null;
-   var profileUsername = document.querySelector('#profile-username') || null;
-   var profileRepos = document.querySelector('#profile-repos') || null;
-   var displayName = document.querySelector('#display-name');
-   var apiUrl = appUrl + '/api/:id';
+    var profileId = document.querySelector('#profile-id') || null;
+    var profileUsername = document.querySelector('#profile-username') || null;
+    var profileRepos = document.querySelector('#profile-repos') || null;
+    var displayName = document.querySelectorAll('.display-name');
+    var apiUrl = appUrl + '/api/:id';
 
-   function updateHtmlElement (data, element, userProperty) {
-      element.innerHTML = data[userProperty];
-   }
+    function updateHtmlElement (data, element, userProperty) {
+        // console.log('updateHtmlElement(): element = ', element);
+        element.innerHTML = data[userProperty];
+    }
 
-   ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', apiUrl, function (data) {
-      var userObject = JSON.parse(data);
+    function updateHtmlElements (data, elements, userProperty) {
+        // console.log('updateHtmlElements(): elements = ', elements);
+        for (var i = 0, len = elements.length; i < len; i++) {
+            updateHtmlElement(data, elements[i], userProperty);
+        }
+    }
 
-      if (userObject.displayName !== null) {
-         updateHtmlElement(userObject, displayName, 'displayName');
-      } else {
-         updateHtmlElement(userObject, displayName, 'username');
-      }
+    ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', apiUrl, function (data) {
+        var userObject = JSON.parse(data);
 
-      if (profileId !== null) {
-         updateHtmlElement(userObject, profileId, 'id');   
-      }
+        if (userObject.displayName !== null) {
+            updateHtmlElements(userObject, displayName, 'displayName');
+        } else {
+            updateHtmlElements(userObject, displayName, 'username');
+        }
 
-      if (profileUsername !== null) {
-         updateHtmlElement(userObject, profileUsername, 'username');   
-      }
+        if (profileId !== null) {
+            updateHtmlElement(userObject, profileId, 'id');
+        }
 
-      if (profileRepos !== null) {
-         updateHtmlElement(userObject, profileRepos, 'publicRepos');   
-      }
+        if (profileUsername !== null) {
+            updateHtmlElement(userObject, profileUsername, 'username');
+        }
 
-   }));
+        if (profileRepos !== null) {
+            updateHtmlElement(userObject, profileRepos, 'publicRepos');
+        }
+
+    }));
 })();

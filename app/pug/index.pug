@@ -1,0 +1,29 @@
+extends layouts/member.pug
+
+block content
+    //- .container
+    //-     br/
+    //-     .btn-container
+    //-         a(href='/polls/new' class='btn btn-new-poll') New Poll!
+    //-         a(href='/polls' class='btn btn-polls') My Polls
+
+        //- hr
+
+        //- .container
+        //-     img(src='/public/img/clementine_150.png')
+        //-     br/
+        //-     p.clementine-text | Clementine.js
+
+        //- .container
+        //-     p.
+        //-         You have clicked the button #[span#click-nbr] times.
+        //-     br/
+        //-     .btn-container
+        //-         button(type='submit' class='btn btn-add') CLICK ME!
+        //-         button(class='btn btn-delete') RESET
+
+block append scripts
+    //- = '\n'
+    //- script(type='text/javascript' src='controllers/clickController.client.js')
+    = '\n'
+    script(type='text/javascript' src='controllers/userController.client.js')

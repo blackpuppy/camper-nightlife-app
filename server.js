@@ -18,6 +18,9 @@ mongoose.Promise = global.Promise;
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+app.set("view engine", "pug");
+app.set('views', path.join(__dirname, 'app/pug'));
+
 app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/public/js', express.static(process.cwd() + '/node_modules'));
