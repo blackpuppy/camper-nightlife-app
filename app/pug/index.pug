@@ -1,11 +1,15 @@
 extends layouts/member.pug
 
 block content
-    //- .container
-    //-     br/
-    //-     .btn-container
-    //-         a(href='/polls/new' class='btn btn-new-poll') New Poll!
-    //-         a(href='/polls' class='btn btn-polls') My Polls
+    .container
+        br/
+        .btn-container
+            input(type='text' class='location-text')
+            button(type='submit' class='btn btn-search') Search
+
+        //- .btn-container
+        //-     a(href='/polls/new' class='btn btn-new-poll') New Poll!
+        //-     a(href='/polls' class='btn btn-polls') My Polls
 
         //- hr
 
@@ -27,3 +31,4 @@ block append scripts
     //- script(type='text/javascript' src='controllers/clickController.client.js')
     = '\n'
     script(type='text/javascript' src='controllers/userController.client.js')
+    script(type='text/javascript', src='/controllers/barController.client.js')
