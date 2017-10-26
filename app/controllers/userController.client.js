@@ -20,26 +20,26 @@
         }
     }
 
-    ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', apiUrl, function (data) {
-        var userObject = JSON.parse(data);
+    // ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', apiUrl, function (data) {
+    //     var userObject = JSON.parse(data);
 
-        if (userObject.displayName !== null) {
-            updateHtmlElements(userObject, displayName, 'displayName');
-        } else {
-            updateHtmlElements(userObject, displayName, 'username');
-        }
+    //     if (userObject.displayName !== null) {
+    //         updateHtmlElements(userObject, displayName, 'displayName');
+    //     } else {
+    //         updateHtmlElements(userObject, displayName, 'username');
+    //     }
 
-        if (profileId !== null) {
-            updateHtmlElement(userObject, profileId, 'id');
-        }
+    //     if (profileId !== null) {
+    //         updateHtmlElement(userObject, profileId, 'id');
+    //     }
 
-        if (profileUsername !== null) {
-            updateHtmlElement(userObject, profileUsername, 'username');
-        }
+    //     if (profileUsername !== null) {
+    //         updateHtmlElement(userObject, profileUsername, 'username');
+    //     }
 
-        if (profileRepos !== null) {
-            updateHtmlElement(userObject, profileRepos, 'publicRepos');
-        }
+    //     if (profileRepos !== null) {
+    //         updateHtmlElement(userObject, profileRepos, 'publicRepos');
+    //     }
 
-    }));
+    // }));
 })();

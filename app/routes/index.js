@@ -18,7 +18,7 @@ module.exports = function (app, passport) {
 	var barHandler = new BarHandler();
 
 	app.route('/')
-		.get(isLoggedIn, function (req, res) {
+		.get(function (req, res) {
             res.render('index');
 		});
 
@@ -58,5 +58,5 @@ module.exports = function (app, passport) {
 		.delete(isLoggedIn, clickHandler.resetClicks);
 
 	app.route('/api/bars')
-		.post(isLoggedIn, barHandler.search);
+		.post(barHandler.search);
 };
