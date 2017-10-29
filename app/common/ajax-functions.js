@@ -13,6 +13,7 @@ var ajaxFunctions = {
 
       document.addEventListener('DOMContentLoaded', fn, false);
    },
+
    ajaxRequest: function ajaxRequest (method, url, callback, data) {
       var xmlhttp = new XMLHttpRequest();
 

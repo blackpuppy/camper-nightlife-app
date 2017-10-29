@@ -16,7 +16,8 @@
         console.log('locationText.value = ', locationText.value);
         console.log('location = ', location);
 
-        ajaxFunctions.ajaxRequest('POST', apiUrl, function () {
+        ajaxFunctions.ajaxRequest('POST', apiUrl, function (result) {
+            console.log('search API succeeded: result = ', result);
         }, location);
 
     }, false);
