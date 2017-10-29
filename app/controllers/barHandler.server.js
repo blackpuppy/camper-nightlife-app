@@ -30,16 +30,15 @@ function BarHandler () {
 
             res.setEncoding('utf8');
             res.on('data', function (chunk) {
-                console.log('BODY: ', chunk);
-                var token = JSON.parse(chunk);
-                console.log('token: ', token);
-                YelpTokens.findOneAndUpdate({ 'id': 1 }, { $set: token})
-                .exec(function (err, result) {
-                        if (err) { throw err; }
-
-                        done(token);
-                    }
-                );
+                // console.log('BODY: ', chunk);
+                var json = JSON.parse(chunk);
+                console.log('josn: ', json);
+                var token = {
+                    accessToken: json.access_token,
+                    expiresIn: json.expires_in,
+                    tokenType: json.token_type
+                }
+                done(null, token);
             });
             res.on('end', function () {
                 // console.log('No more data in response.');
@@ -65,21 +64,33 @@ function BarHandler () {
 
             if (!token) {
                 // if token not found or expired, obtain new token
-                self.obtainToken(function(result) {
+                self.obtainToken(function(err, result) {
                     console.log('obtainToken(): result = ', result);
                     token = result;
-                    done(token);
+
+                    var newToken = new YelpTokens();
+                    newToken.accessToken = result.accessToken;
+                    newToken.expiresIn = result.expiresIn;
+                    newToken.tokenType = result.tokenType;
+
+                    newToken.save(function (err) {
+                        if (err) {
+                            throw err;
+                        }
+
+                        return done(null, newToken);
+                    });
                 });
             } else {
-                done(token);
+                done(null, token);
             }
         });
     }
 
     this.search = function (req, res) {
         // obtain valid token
-        self.readToken(function (result) {
-            console.log('readToken(): token = ', token);
+        self.readToken(function (err, result) {
+            console.log('readToken(): result = ', result);
 
             // call search API with token
         });
