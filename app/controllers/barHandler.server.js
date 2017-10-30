@@ -84,7 +84,7 @@ function BarHandler () {
 
             axios.get(url, config)
             .then(function (resp) {
-                console.log('Yelp search response.data: ', resp.data);
+                console.log('Yelp search response.data returns ', resp.data.businesses.length, ' businesses');
 
                 res.json(resp.data);
             })

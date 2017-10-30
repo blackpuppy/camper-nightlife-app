@@ -14,6 +14,12 @@
   src: local('Roboto Medium'), local('Roboto-Medium'), url('../fonts/Roboto-Medium.ttf') format('truetype');
 }
 
+/****** Utilty Styling ******/
+
+.hidden {
+	display: none;
+}
+
 /****** Main Styling ******/
 
 body {
@@ -204,7 +210,25 @@ span {
 }
 
 /****** Homepage Styling ******/
+
 .location-text {
 	width: 800px;
 	height: 30px;
+}
+
+.bar-list {
+	list-style: none;
+}
+
+.bar-list .bar {
+	display: flex;
+	border-radius: 5px;
+	margin: 10px auto;
+	width: 1050px;
+	text-align: left;
+	padding: 10px 10px;
+}
+
+.bar-list .bar img {
+	height: 90px;
 }
