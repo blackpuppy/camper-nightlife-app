@@ -14,7 +14,7 @@ function BarHandler () {
 
         axios.post('https://api.yelp.com/oauth2/token', data)
         .then(function (res) {
-            // console.error('Yelp authentcation response.data: ', res.data);
+            // console.log('Yelp authentcation response.data: ', res.data);
 
             var token = {
                 accessToken: res.data.access_token,
@@ -64,28 +64,37 @@ function BarHandler () {
     this.search = function (req, res) {
         // obtain valid token
         self.readToken(function (err, result) {
-            // console.log('readToken(): result = ', result);
+            console.log('readToken(): token = ', result.accessToken);
 
             // call search API with token
-            console.log('request body: ', req.body);
-            var data = {
-                location: req.body.location,
-                categories: 'bars'
-            };
+            console.log('Search request body: ', req.body);
 
-            res.json('temp result');
+            var params = {
+                    location: req.body.location,
+                    categories: 'bars'
+                },
+                queryString = 'location' + req.body.location + '&categories=bars',
+                url = 'https://api.yelp.com/v3/businesses/search',
+                config = {
+                    params: params,
+                    headers: {'Authorization': 'Bearer ' + result.accessToken}
+                };
+
+            console.log('Search url = ', url);
+
+            axios.get(url, config)
+            .then(function (resp) {
+                console.log('Yelp search response.data: ', resp.data);
+
+                res.json(resp.data);
+            })
+            .catch(function (error) {
+                console.error('Yelp search error: ', error);
+
+                res.json(error);
+            })
         });
-
-        // Users
-        //     .findOneAndUpdate({ 'twitter.id': req.user.twitter.id }, { $inc: { 'nbrClicks.clicks': 1 } })
-        //     .exec(function (err, result) {
-        //             if (err) { throw err; }
-
-        //             res.json(result.nbrClicks);
-        //         }
-        //     );
     };
-
 }
 
 module.exports = BarHandler;
