@@ -1,7 +1,6 @@
 'use strict';
 
-var https = require('https'),
-    Users = require('../models/users.js'),
+var axios = require('axios'),
     YelpTokens = require('../models/YelpTokens.js'),
     configAuth = require('../config/auth');
 
@@ -11,52 +10,27 @@ function BarHandler () {
     this.obtainToken = function (done) {
         var data = 'client_id=' + configAuth.yelpAuth.clientID
                 + '&client_secret=' + configAuth.yelpAuth.clientSecret
-                + '&grant_type=client_credentials',
-            options = {
-                hostname: 'api.yelp.com',
-                // protocol: 'https',
-                port: 443,
-                path: '/oauth2/token',
-                method: 'POST',
-                headers: {
-                    'Cache-Control': 'no-cache',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
+                + '&grant_type=client_credentials';
+
+        axios.post('https://api.yelp.com/oauth2/token', data)
+        .then(function (res) {
+            // console.error('Yelp authentcation response.data: ', res.data);
+
+            var token = {
+                accessToken: res.data.access_token,
+                expiresIn: res.data.expires_in,
+                tokenType: res.data.token_type
             };
-
-        var req = https.request(options, function (res) {
-            // console.log('STATUS: ', res.statusCode);
-            // console.log('HEADERS: ', JSON.stringify(res.headers));
-
-            res.setEncoding('utf8');
-            res.on('data', function (chunk) {
-                // console.log('BODY: ', chunk);
-                var json = JSON.parse(chunk);
-                // console.log('josn: ', json);
-                var token = {
-                    accessToken: json.access_token,
-                    expiresIn: json.expires_in,
-                    tokenType: json.token_type
-                }
-                done(null, token);
-            });
-            res.on('end', function () {
-                // console.log('No more data in response.');
-            });
-        });
-
-        req.on('error', function (e) {
-            console.error('problem with request: ', e.message);
-        });
-
-        // write data to request body
-        req.write(data);
-        req.end();
+            done(null, token);
+        })
+        .catch(function (error) {
+            console.error('Yelp authentcation error: ', error);
+        })
     }
 
     this.readToken = function (done) {
         // read token from storage
-        YelpTokens.findOne({ 'id': 1 }, { '_id': false })
+        YelpTokens.findOne({}, { '_id': false })
         .exec(function (err, token) {
             if (err) { throw err; }
 
