@@ -32,7 +32,7 @@ function BarHandler () {
             res.on('data', function (chunk) {
                 // console.log('BODY: ', chunk);
                 var json = JSON.parse(chunk);
-                console.log('josn: ', json);
+                // console.log('josn: ', json);
                 var token = {
                     accessToken: json.access_token,
                     expiresIn: json.expires_in,
@@ -60,12 +60,12 @@ function BarHandler () {
         .exec(function (err, token) {
             if (err) { throw err; }
 
-            console.log('readToken(): token = ', token);
+            // console.log('readToken(): token = ', token);
 
             if (!token) {
                 // if token not found or expired, obtain new token
                 self.obtainToken(function(err, result) {
-                    console.log('obtainToken(): result = ', result);
+                    // console.log('obtainToken(): result = ', result);
                     token = result;
 
                     var newToken = new YelpTokens();
@@ -90,9 +90,16 @@ function BarHandler () {
     this.search = function (req, res) {
         // obtain valid token
         self.readToken(function (err, result) {
-            console.log('readToken(): result = ', result);
+            // console.log('readToken(): result = ', result);
 
             // call search API with token
+            console.log('request body: ', req.body);
+            var data = {
+                location: req.body.location,
+                categories: 'bars'
+            };
+
+            res.json('temp result');
         });
 
         // Users

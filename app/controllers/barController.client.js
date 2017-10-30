@@ -16,9 +16,13 @@
         console.log('locationText.value = ', locationText.value);
         console.log('location = ', location);
 
+        var data = {
+            location: location
+        }
+
         ajaxFunctions.ajaxRequest('POST', apiUrl, function (result) {
             console.log('search API succeeded: result = ', result);
-        }, location);
+        }, JSON.stringify(data));
 
     }, false);
 
