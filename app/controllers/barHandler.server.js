@@ -1,6 +1,7 @@
 'use strict';
 
-var axios = require('axios'),
+var querystring = require('querystring'),
+    axios = require('axios'),
     YelpTokens = require('../models/YelpTokens.js'),
     configAuth = require('../config/auth');
 
@@ -8,11 +9,13 @@ function BarHandler () {
     var self = this;
 
     this.obtainToken = function (done) {
-        var data = 'client_id=' + configAuth.yelpAuth.clientID
-                + '&client_secret=' + configAuth.yelpAuth.clientSecret
-                + '&grant_type=client_credentials';
+        var data = {
+            client_id: configAuth.yelpAuth.clientID,
+            client_secret: configAuth.yelpAuth.clientSecret,
+            grant_type: 'ent_credentials'
+        };
 
-        axios.post('https://api.yelp.com/oauth2/token', data)
+        axios.post('https://api.yelp.com/oauth2/token', querystring.stringify(data))
         .then(function (res) {
             // console.log('Yelp authentcation response.data: ', res.data);
 
