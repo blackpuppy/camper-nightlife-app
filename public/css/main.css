@@ -231,4 +231,11 @@ span {
 
 .bar-list .bar img {
 	height: 90px;
+	width: 90px;
+	/*text-align: left;*/
+	margin: 0;
+}
+
+.bar-list .bar a {
+	margin: 5px 10px;
 }

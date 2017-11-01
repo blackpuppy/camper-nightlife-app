@@ -37,10 +37,15 @@
             for (var i = 0; i < data.businesses.length; i++) {
                 var business  = data.businesses[i];
 
-                var barFragment = barTemplate.cloneNode(true);
+                var barFragment = barTemplate.cloneNode(true),
+                    photo = barFragment.querySelector('.bar-photo'),
+                    name = barFragment.querySelector('.bar-name'),
+                    attendees = barFragment.querySelector('.bar-attendees'),
+                    desc = barFragment.querySelector('.bar-desc');
                 barFragment.classList.remove('hidden');
-                barFragment.childNodes[0].src = business.image_url;
-                barFragment.childNodes[1].childNodes[0].innerHTML = business.name;
+                photo.src = business.image_url;
+                name.innerHTML = business.name;
+                name.href = business.url;
 
                 barList.appendChild(barFragment);
             }
