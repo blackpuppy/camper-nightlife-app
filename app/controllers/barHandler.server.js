@@ -76,20 +76,59 @@ function BarHandler () {
                     location: req.body.location,
                     categories: 'bars'
                 },
-                queryString = 'location' + req.body.location + '&categories=bars',
                 url = 'https://api.yelp.com/v3/businesses/search',
                 config = {
                     params: params,
                     headers: {'Authorization': 'Bearer ' + result.accessToken}
                 };
 
-            console.log('Search url = ', url);
+            // console.log('Search url = ', url);
 
             axios.get(url, config)
             .then(function (resp) {
-                console.log('Yelp search response.data returns ', resp.data.businesses.length, ' businesses');
+                console.log('Yelp search response.data returns ', resp.data.businesses.length, ' bars');
 
-                res.json(resp.data);
+                // get reviews for each bar
+                var config = {
+                        headers: {'Authorization': 'Bearer ' + result.accessToken}
+                    },
+                    reviewUrls = [];
+
+                for (var i = 0; i < resp.data.businesses.length; i++) {
+                    var bar  = resp.data.businesses[i],
+                        reviewUrl = 'https://api.yelp.com/v3/businesses/' + bar.id + '/reviews';
+                    reviewUrls.push(reviewUrl);
+                }
+
+                var handleFunc = function () {
+                        console.log('handleFunc(): arguments.length =', arguments.length);
+                        // console.log('handleFunc(): arguments[0].data =', arguments[0].data);
+
+                        var bars = [];
+
+                        for (var i = 0; i < arguments.length; i++) {
+                            var arg = arguments[i],
+                                review = arg.data.reviews[0].text,
+                                business = resp.data.businesses[i],
+                                bar = {
+                                    imageUrl: business.image_url,
+                                    name: business.name,
+                                    url: business.url,
+                                    desc: review
+                                };
+
+                            // console.log('handleFunc(): review =', review);
+
+                            bars.push(bar);
+                        }
+
+                        res.json(bars);
+                    };
+
+                axios.all(reviewUrls.map(function (url) {
+                    return axios.get(url, config);
+                }))
+                    .then(axios.spread(handleFunc));
             })
             .catch(function (error) {
                 console.error('Yelp search error: ', error);
