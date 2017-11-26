@@ -47,6 +47,7 @@
                 name.innerHTML = bar.name;
                 name.href = bar.url;
                 desc.innerHTML = bar.desc;
+                attendance.innerHTML = bar.attendeeCount + ' GOING';
 
                attendance.addEventListener('click', function () {
                   ajaxFunctions.ajaxRequest('POST', apiUrl, function () {

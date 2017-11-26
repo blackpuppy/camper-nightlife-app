@@ -239,3 +239,13 @@ span {
 .bar-list .bar a {
 	margin: 5px 10px;
 }
+
+.bar-list .bar .bar-toggle-attendance {
+    margin: 5px;
+    border: 1px solid;
+    padding: 0 10px;
+    border-radius: 3px;
+    /*font-size: 0.9em;
+    color: white;*/
+    text-decoration: none;
+}
