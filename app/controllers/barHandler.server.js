@@ -3,7 +3,8 @@
 var querystring = require('querystring'),
     axios = require('axios'),
     YelpTokens = require('../models/YelpTokens.js'),
-    configAuth = require('../config/auth');
+    configAuth = require('../config/auth'),
+    Bar = require('../models/bars');
 
 function BarHandler () {
     var self = this;
@@ -101,7 +102,7 @@ function BarHandler () {
                 }
 
                 var handleFunc = function () {
-                        console.log('handleFunc(): arguments.length =', arguments.length);
+                        // console.log('handleFunc(): arguments.length =', arguments.length);
                         // console.log('handleFunc(): arguments[0].data =', arguments[0].data);
 
                         var bars = [];
@@ -111,13 +112,26 @@ function BarHandler () {
                                 review = arg.data.reviews[0].text,
                                 business = resp.data.businesses[i],
                                 bar = {
+                                    id: business.id,
                                     imageUrl: business.image_url,
                                     name: business.name,
                                     url: business.url,
-                                    desc: review
+                                    desc: review,
+                                    attendeeCount: 0
                                 };
 
                             // console.log('handleFunc(): review =', review);
+
+                            // read number of users going to a bar
+                            Bar.findOne({'id': business.id}, function (err, b) {
+                                if (err) {
+                                    // TODO: how to deal with error?
+                                }
+
+                                if (b) {
+                                    bar.attendeeCount = bar.users.length;
+                                }
+                            });
 
                             bars.push(bar);
                         }
