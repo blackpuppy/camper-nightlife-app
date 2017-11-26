@@ -4,9 +4,12 @@
 
     var locationText = document.querySelector('.location-text') || null,
         searchButton = document.querySelector('.btn-search'),
-        searchUrl = appUrl + '/api/bars';
+        searchUrl = appUrl + '/api/bars',
+        storage = window.localStorage,
+        location = storage.getItem('location');
 
-    searchButton.addEventListener('click', function () {
+    var doSearch = function () {
+        // console.log('searchButton clicked');
 
         var location;
         if (!!locationText) {
@@ -15,6 +18,9 @@
 
         // console.log('locationText.value = ', locationText.value);
         // console.log('location = ', location);
+
+        // save location in local storage
+        storage.setItem('location', location);
 
         var data = {
             location: location
@@ -75,7 +81,14 @@
                 barList.appendChild(barFragment);
             }
         }, JSON.stringify(data));
+    };
 
-    }, false);
+    searchButton.addEventListener('click', doSearch, false);
+
+    locationText.value = location;
+
+    if (!!location) {
+        doSearch();
+    }
 
 })();
