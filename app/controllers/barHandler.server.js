@@ -129,13 +129,14 @@ function BarHandler () {
                                 }
 
                                 if (b) {
-                                    bar.attendeeCount = bar.users.length;
+                                    bar.attendeeCount = b.users.length;
                                 }
                             });
 
                             bars.push(bar);
                         }
 
+                        res.setHeader('Content-Type', 'application/json');
                         res.json(bars);
                     };
 
@@ -153,6 +154,42 @@ function BarHandler () {
     };
 
     this.toggle = function (req, res, next) {
+        console.log('BarHandler.toggle(): req.params = ', req.params);
+        console.log('req.user.twitter.id = ', req.user.twitter.id);
+
+        Bar.findOne({'id': req.params.id}, function (err, bar) {
+            if (err) {
+                throw err;
+            }
+
+            var callback = function (err, bar) {
+                if (err) { throw err; }
+
+                console.log('saved new bar: ', bar);
+
+                res.setHeader('Content-Type', 'application/json');
+                res.status(200).json({result: 'OK', bar: bar});
+            };
+
+            if (bar) {
+                if (bar.users.indexOf(req.user.twitter.id) === -1) {
+                    bar.users.push(req.user.twitter.id);
+                } else {
+                    bar.users = bar.users.filter(function (e) {
+                        return e !== req.user.twitter.id;
+                    });
+                }
+
+                Bar.update({'id': req.params.id}, bar, callback);
+            } else {
+                var newBar = new Bar({
+                    id: req.params.id,
+                    users: [req.user.twitter.id]
+                });
+
+                newBar.save(callback);
+            }
+        });
     };
 }
 

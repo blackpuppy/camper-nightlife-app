@@ -18,6 +18,7 @@ module.exports = function (app, passport) {
         if (req.isAuthenticated()) {
             return next();
         } else {
+            res.setHeader('Content-Type', 'application/json');
             res.status(401).json({ error: "Please log in first." });
         }
     }
