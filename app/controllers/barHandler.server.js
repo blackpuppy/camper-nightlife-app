@@ -162,10 +162,10 @@ function BarHandler () {
                 throw err;
             }
 
-            var callback = function (err, bar) {
+            var callback = function (err, data) {
                 if (err) { throw err; }
 
-                console.log('saved new bar: ', bar);
+                console.log('saved bar: ', bar);
 
                 res.setHeader('Content-Type', 'application/json');
                 res.status(200).json({result: 'OK', bar: bar});
@@ -182,12 +182,12 @@ function BarHandler () {
 
                 Bar.update({'id': req.params.id}, bar, callback);
             } else {
-                var newBar = new Bar({
+                var bar = new Bar({
                     id: req.params.id,
                     users: [req.user.twitter.id]
                 });
 
-                newBar.save(callback);
+                bar.save(callback);
             }
         });
     };

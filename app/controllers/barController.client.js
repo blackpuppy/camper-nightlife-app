@@ -25,7 +25,7 @@
 
             var bars = JSON.parse(result);
 
-            console.log('search API succeeded: bars = ', bars);
+            // console.log('search API succeeded: bars = ', bars);
 
             var barList = document.querySelector('.bar-list') || null,
                 barTemplate = document.querySelector('.bar') || null;
@@ -56,12 +56,16 @@
                     e.preventDefault();
 
                     var url = toggleUrl.replace(':id', e.target.dataset.id);
-                    console.log('.bar-toggle-attendance clicked: POST to ', url);
+                    // console.log('.bar-toggle-attendance clicked: POST to ', url);
 
-                    ajaxFunctions.ajaxRequest('POST', url, function (res) {
-                        console.log('POST to ', url, ' response: ', res);
+                    ajaxFunctions.ajaxRequest('POST', url, function (data) {
+                        var result = JSON.parse(data);
+                        // console.log('POST to ', url, ' response: ', result);
+
+                        e.target.innerHTML = result.bar.users.length + ' GOING';
                     }, null, function (status, res) {
                         console.log('POST to ', url, ' status: ', status, ', error: ', res);
+
                         if (status === 401) {
                             window.location.replace('/login');
                         }
