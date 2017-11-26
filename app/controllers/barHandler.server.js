@@ -2,9 +2,9 @@
 
 var querystring = require('querystring'),
     axios = require('axios'),
-    YelpTokens = require('../models/YelpTokens.js'),
     configAuth = require('../config/auth'),
-    Bar = require('../models/bars');
+    Bar = require('../models/bars'),
+    YelpTokens = require('../models/yelpTokens.js');
 
 function BarHandler () {
     var self = this;
