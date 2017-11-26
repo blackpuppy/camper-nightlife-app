@@ -4,7 +4,7 @@
 
     var locationText = document.querySelector('.location-text') || null,
         searchButton = document.querySelector('.btn-search'),
-        apiUrl = appUrl + '/api/bars';
+        searchUrl = appUrl + '/api/bars';
 
     searchButton.addEventListener('click', function () {
 
@@ -13,19 +13,19 @@
             location = locationText.value;
         }
 
-        console.log('locationText.value = ', locationText.value);
-        console.log('location = ', location);
+        // console.log('locationText.value = ', locationText.value);
+        // console.log('location = ', location);
 
         var data = {
             location: location
         }
 
-        ajaxFunctions.ajaxRequest('POST', apiUrl, function (result) {
+        ajaxFunctions.ajaxRequest('POST', searchUrl, function (result) {
             // console.log('search API succeeded: result has ', result, ' businesses');
 
             var bars = JSON.parse(result);
 
-            // console.log('search API succeeded: bars = ', bars);
+            console.log('search API succeeded: bars = ', bars);
 
             var barList = document.querySelector('.bar-list') || null,
                 barTemplate = document.querySelector('.bar') || null;
@@ -41,18 +41,32 @@
                     name = barFragment.querySelector('.bar-name'),
                     attendance = barFragment.querySelector('.bar-toggle-attendance'),
                     desc = barFragment.querySelector('.bar-desc'),
-                    apiUrl = appUrl + '/api/bars/:id/toggle';
+                    toggleUrl = appUrl + '/api/bars/:id/toggle';
                 barFragment.classList.remove('hidden');
                 photo.src = bar.imageUrl;
                 name.innerHTML = bar.name;
                 name.href = bar.url;
                 desc.innerHTML = bar.desc;
                 attendance.innerHTML = bar.attendeeCount + ' GOING';
+                attendance.dataset.id = bar.id;
 
-               attendance.addEventListener('click', function () {
-                  ajaxFunctions.ajaxRequest('POST', apiUrl, function () {
-                  });
-               }, false);
+                attendance.addEventListener('click', function (e) {
+                    // console.log('.bar-toggle-attendance clicked: e = ', e);
+
+                    e.preventDefault();
+
+                    var url = toggleUrl.replace(':id', e.target.dataset.id);
+                    console.log('.bar-toggle-attendance clicked: POST to ', url);
+
+                    ajaxFunctions.ajaxRequest('POST', url, function (res) {
+                        console.log('POST to ', url, ' response: ', res);
+                    }, null, function (status, res) {
+                        console.log('POST to ', url, ' status: ', status, ', error: ', res);
+                        if (status === 401) {
+                            window.location.replace('/login');
+                        }
+                    });
+                }, false);
 
                 barList.appendChild(barFragment);
             }

@@ -14,6 +14,14 @@ module.exports = function (app, passport) {
         }
     }
 
+    function apiIsLoggedIn (req, res, next) {
+        if (req.isAuthenticated()) {
+            return next();
+        } else {
+            res.status(401).json({ error: "Please log in first." });
+        }
+    }
+
     var clickHandler = new ClickHandler();
     var barHandler = new BarHandler();
 
@@ -61,5 +69,5 @@ module.exports = function (app, passport) {
         .post(barHandler.search);
 
     app.route('/api/bars/:id/toggle')
-        .post(isLoggedIn, barHandler.toggle);
+        .post(apiIsLoggedIn, barHandler.toggle);
 };

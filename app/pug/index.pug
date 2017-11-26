@@ -4,7 +4,7 @@ block content
     .container
         br/
         .btn-container
-            input(type='text' class='location-text')
+            input(type='text' class='location-text' placeholder="Which bar are you going tonight?")
             button(type='submit' class='btn btn-search') Search
 
     ul.container.bar-list
@@ -13,7 +13,7 @@ block content
         img(class='bar-photo')
         div(class='bar-info')
             a(class='bar-name')
-            a(class='bar-toggle-attendance') 0 GOING
+            a(class='bar-toggle-attendance' href="#") 0 GOING
             p(class='bar-desc')
 
         //- .btn-container
