@@ -59,4 +59,7 @@ module.exports = function (app, passport) {
 
     app.route('/api/bars')
         .post(barHandler.search);
+
+    app.route('/api/bars/:id/toggle')
+        .post(isLoggedIn, barHandler.toggle);
 };

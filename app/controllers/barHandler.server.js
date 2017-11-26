@@ -137,6 +137,9 @@ function BarHandler () {
             })
         });
     };
+
+    this.toggle = function (req, res, next) {
+    };
 }
 
 module.exports = BarHandler;

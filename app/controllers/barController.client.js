@@ -39,13 +39,19 @@
                 var barFragment = barTemplate.cloneNode(true),
                     photo = barFragment.querySelector('.bar-photo'),
                     name = barFragment.querySelector('.bar-name'),
-                    attendees = barFragment.querySelector('.bar-attendees'),
-                    desc = barFragment.querySelector('.bar-desc');
+                    attendance = barFragment.querySelector('.bar-toggle-attendance'),
+                    desc = barFragment.querySelector('.bar-desc'),
+                    apiUrl = appUrl + '/api/bars/:id/toggle';
                 barFragment.classList.remove('hidden');
                 photo.src = bar.imageUrl;
                 name.innerHTML = bar.name;
                 name.href = bar.url;
                 desc.innerHTML = bar.desc;
+
+               attendance.addEventListener('click', function () {
+                  ajaxFunctions.ajaxRequest('POST', apiUrl, function () {
+                  });
+               }, false);
 
                 barList.appendChild(barFragment);
             }
