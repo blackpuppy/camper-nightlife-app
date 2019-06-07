@@ -24,7 +24,7 @@
 
         var data = {
             location: location
-        }
+        };
 
         ajaxFunctions.ajaxRequest('POST', searchUrl, function (result) {
             // console.log('search API succeeded: result has ', result, ' businesses');
